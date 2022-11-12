@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebAppTest.website
+namespace BlogMaster1122.website
 {
     public class Startup
     {
@@ -24,6 +22,27 @@ namespace WebAppTest.website
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            // Replace with your connection string.
+            var connectionString = "server=localhost;user=root;password=comp440;database=ef";
+
+            // Replace with your server version and type.
+            // Use 'MariaDbServerVersion' for MariaDB.
+            // Alternatively, use 'ServerVersion.AutoDetect(connectionString)'.
+            // For common usages, see pull request #1233.
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
+
+            // Replace 'YourDbContext' with the name of your own DbContext derived class.
+            services.AddDbContext<MySQLDbContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(connectionString, serverVersion)
+                    // The following three options help with debugging, but should
+                    // be changed or removed for production.
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors()
+            );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
