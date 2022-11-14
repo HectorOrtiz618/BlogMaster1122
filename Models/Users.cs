@@ -29,20 +29,4 @@ namespace BlogMaster.Website.Models
         public string Email { get; set; }
         public string Phone { get; set; }
     }
-    public class Blog
-    {
-        public string BlogTitle { get; set; }
-        public string BlogDesc { get; set; }
-        public string Date { get; set; }
-    }
-
-    public class Comment
-    {
-        public string CommentDesc { get; set; }
-        public string Date { get; set; }
-    }
-    public class Tag
-    {
-        public string TagDesc { get; set; }
-    }
 }
